@@ -1,1 +1,11 @@
-<p>movie works!</p>
+<div class="rounded">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-6 col-lg-3 col-sm-4 col-xl-2" *ngFor="let movie of movies">
+                <div class="card mb-4">
+                    <img src="{{movie.posterUrl}}" alt="{{movie.title}}">
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 

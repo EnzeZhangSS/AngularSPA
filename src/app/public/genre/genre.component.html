@@ -1,1 +1,13 @@
-<p>genre works!</p>
+<div class="rounded">
+    <div class="container-fluid">
+        <div class="row">
+                <div class="col-6 col-lg-3 col-sm-4 col-xl-2" *ngFor="let genre of genres">
+                    <div class="my-2">
+                        <button type="button" class="btn btn-secondary">
+                            {{genre.name}}
+                        </button>
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>

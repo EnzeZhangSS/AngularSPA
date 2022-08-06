@@ -1,1 +1,46 @@
-<p>cast-details works!</p>
+<div class="rounded">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-6 offset-3">
+                <div class="row">
+                    <div class="col-3">
+                        <h3>Cast ID:</h3>
+                    </div>
+                    <div class="col">
+                        <input type="number" [(ngModel)]="castId"> 
+                        <button class="btn btn-primary" (click)="GetCastDetailsByID()">Search</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-9 offset-1">
+                        <img src="{{castDetails.profilePath}}" alt="{{castDetails.name}}">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-3">
+                        <h3>Name:</h3>
+                    </div>
+                    <div class="col">
+                        <h3>{{castDetails.name}}</h3>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-3">
+                        <h3>Gender:</h3>
+                    </div>
+                    <div class="col">
+                        <h3>{{castDetails.gender}}</h3>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-3">
+                        <h3>TMDB:</h3>
+                    </div>
+                    <div class="col">
+                        <a href="{{castDetails.tmdbUrl}}" target="_blank"><button class="btn btn-primary">TMDB</button></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 
