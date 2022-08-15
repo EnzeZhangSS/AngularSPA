@@ -1,1 +1,200 @@
-<p>movie-details works!</p>
+<div class="container-fluid">
+	<div class="row">
+		<div class="bg-image"
+			style="background-image: url('{{movieDetails.backdropUrl}}'); background-position:center; background-size:cover; background-repeat:no-repeat; height:50vh">
+			<div class="mask" style="background-color: rgba(0, 0, 0, 0.6); height:50vh">
+				<div class="row">
+					<div class="col-3 text-end">
+						<img src="{{movieDetails.posterUrl}}" style="height:50vh" />
+					</div>
+					<div class="col-5 offset-1">
+						<h2 class="text-white">{{movieDetails.title}}</h2>
+						<p style="color:lightgray">{{movieDetails.tagline}}</p>
+						<h6>
+							<span style="color:lightgray">{{movieDetails.runTime}} m |
+								{{GetYear(movieDetails.releaseDate)}}</span>
+							<span style="float:right; ">
+								<span *ngFor="let g of movieDetails.genres">
+									<span>
+										<p class="badge bg-secondary rounded-pill">{{g.name}}</p>&nbsp;
+									</span>
+								</span>
+							</span>
+						</h6>
+						<h1 class="badge bg-success" style="font-size:1em">
+							{{movieDetails.rating}}
+						</h1>
+						<p class="text-white">{{movieDetails.overview}}</p>
+					</div>
+					<div class="col-3 pt-5 text-end">
+						<div class="pb-3">
+
+							<a asp-controller="User" asp-action="ReviewMovie" asp-route-movieId="@Model.Id">
+								<button type="button" class="btn btn-outline-light" style="width:60%"><i
+										class="bi bi-pencil-square"></i> REVIEW</button>
+							</a>
+
+						</div>
+
+						<div class="pb-3">
+							<button type="button" class="btn btn-light" style="width:60%" (click)="open(BuyModal)">
+								BUY ${{movieDetails.price}}
+							</button>
+						</div>
+						<!--
+						<div class="pb-3">
+							@if (currentUser.IsAuthenticated)
+							{
+								@if (await userService.IsMoviePurchased(currentUser.UserId, Model.Id))
+								{
+									<a href="@Model.TmdbUrl" target="_blank"><button type="button" class="btn btn-light" style="width:60%">WATCH MOVIE</button></a>
+								}
+								else
+								{
+									<button type="button" class="btn btn-light" style="width:60%" data-bs-toggle="modal" data-bs-target="#BuyModal">BUY $@Model.Price</button>
+								}
+							}
+							else
+							{
+								<button type="button" class="btn btn-light" style="width:60%" data-bs-toggle="modal" data-bs-target="#BuyModal">BUY $@Model.Price</button>
+							}
+						</div>
+						<div>
+							@if (currentUser.IsAuthenticated)
+							{
+								@if (await userService.FavoriteExists(currentUser.UserId, Model.Id))
+								{
+									<form asp-controller="User" asp-action="FavoriteMovie" asp-route-movieId="@Model.Id" asp-route-actionId="0">
+										<button type="submit" class="btn btn-danger" style="width:60%">FAVORITE <i class="bi bi-heart"></i></button>
+									</form>
+								}
+								else
+								{
+									<form asp-controller="User" asp-action="FavoriteMovie" asp-route-movieId="@Model.Id" asp-route-actionId="1">
+										<button type="submit" class="btn btn-outline-danger" style="width:60%">FAVORITE <i class="bi bi-heart"></i></button>
+									</form>
+								}
+							}
+							else
+							{
+								<a asp-controller="Account" asp-action="Login">
+									<button type="button" class="btn btn-outline-danger" style="width:60%">FAVORITE <i class="bi bi-heart"></i></button>
+								</a>
+							}
+
+						</div>
+                        -->
+
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+	</div>
+	<div class="row mt-3">
+		<div class="col-3" style="background-color:whitesmoke">
+			<div class="mb-3">
+				<p>MOVIE FACTS</p>
+				<hr />
+				<ul class="list-group list-group-flush mt-2">
+					<li class="list-group-item" style="background-color:whitesmoke">
+						<i class="bi bi-calendar-week"></i> Release Date
+						<span class="badge rounded-pill bg-dark">{{GetDay(movieDetails.releaseDate)}}</span>
+					</li>
+					<li class="list-group-item" style="background-color:whitesmoke">
+						<i class="bi bi-hourglass-split"></i> Run Time
+						<span class="badge rounded-pill bg-dark">{{movieDetails.runTime}} m</span>
+					</li>
+					<li class="list-group-item" style="background-color:whitesmoke">
+						<i class="bi bi-cash"></i> Box Office
+						<span class="badge rounded-pill bg-dark">
+							{{GetMoney(movieDetails.revenue)}}
+						</span>
+					</li>
+					<li class="list-group-item" style="background-color:whitesmoke">
+						<i class="bi bi-currency-dollar"></i> Budget
+						<span class="badge rounded-pill bg-dark">
+							{{GetMoney((movieDetails.budget))}}
+						</span>
+					</li>
+					<li class="list-group-item" style="background-color:whitesmoke">
+						<a href="{{movieDetails.imdbUrl}}" target="_blank">
+							<button class="btn btn-dark">IMDB</button>
+						</a>
+						&nbsp;
+						<fa-icon [icon]="faShareFromSquare"></fa-icon>
+					</li>
+				</ul>
+			</div>
+			<div>
+				<p class="pt-4">TRAILERS</p>
+				<hr />
+				<ul class="list-group list-group-flush mt-2">
+					<li class="list-group-item" style="background-color:whitesmoke"
+						*ngFor="let t of movieDetails.trailers">
+						<i class="bi bi-youtube"></i>
+						<a href="{{t.trailerUrl}}" target="_blank"
+							class="text-black text-decoration-none">&nbsp;{{t.name}}</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="col-7 offset-1">
+			<p>CAST</p>
+			<hr />
+			<ul class="list-group list-group-flush mt-2">
+				<li class="list-group-item" *ngFor="let c of movieDetails.casts">
+					<div style="float:left; width:10%">
+						<a [routerLink]="['/Cast-Details/', c.id]">
+							<img src="{{c.profilePath}}" alt="{{c.name}}" class="rounded-circle" style="width:50%">
+						</a>
+					</div>
+					<div style="float:left; width:50%">
+						{{c.name}}
+					</div>
+					<div style="float:left; width:40%">
+						{{c.character}}
+					</div>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+<!--
+<div class="modal fade" id="BuyModal" tabindex="-1" aria-labelledby="BuyModalLabel" aria-hidden="true">
+	</div>
+-->
+<ng-template let-modal>
+	<div class="modal-header">
+		<h5 class="modal-title" id="BuyModalLabel">Confirmation</h5>
+		<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	</div>
+	<div class="modal-body">
+		<h3>{{movieDetails.title}}</h3>
+		<h4>Price: ${{movieDetails.price}}</h4>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+		<!--
+				<form asp-controller="User" asp-action="BuyMovie" asp-route-movieId="@Model.Id">
+					<button type="submit" class="btn btn-primary">Purchase</button>
+				</form>
+				-->
+	</div>
+</ng-template>
+
+<ng-template #BuyModal let-modal>
+	<div class="modal-header">
+		<h4 class="modal-title" id="modal-basic-title">Confirmation</h4>
+		<button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+	</div>
+	<div class="modal-body">
+		<h3>{{movieDetails.title}}</h3>
+		<h4>Price: ${{movieDetails.price}}</h4>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-outline-dark" (click)="PurchaseMovie();modal.dismiss()">Purchase</button>
+	</div>
+</ng-template>

@@ -5,6 +5,7 @@ import { AdminRoutingModule } from './admin-routing.module';
 import { CreateMovieComponent } from './create-movie.component';
 import { CreateCastComponent } from './create-cast.component';
 import { TopPurchasesComponent } from './top-purchases.component';
+import { AdminGuard } from '../core/Guards/admin.guard';
 
 
 @NgModule({
@@ -16,6 +17,7 @@ import { TopPurchasesComponent } from './top-purchases.component';
   imports: [
     CommonModule,
     AdminRoutingModule
-  ]
+  ],
+  providers: [ AdminGuard ]
 })
 export class AdminModule { }

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { CastService } from 'src/app/core/services/cast.service';
 import { Cast } from 'src/app/shared/models/Cast';
 
@@ -13,15 +14,23 @@ export class CastDetailsComponent implements OnInit {
   castId!: number;
   gender!: string;
 
-  constructor(private castService: CastService) { }
+  constructor(private castService: CastService, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-
+    this.GetCastDetails();
   }
+
+  GetCastDetails(){
+    this.route.params.subscribe(param => {
+      this.castId = param["castId"];
+      this.GetCastDetailsByID();
+      console.log(this.castDetails);
+    });
+  }
+
   GetCastDetailsByID() {
     this.castService.getCastDetails(this.castId).subscribe(c => {
       this.castDetails = c;
-      console.log(this.castDetails);
       this.castDetails.gender = this.GetGenderByID();
     });
   }
